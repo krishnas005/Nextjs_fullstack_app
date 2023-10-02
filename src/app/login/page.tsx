@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import React from 'react';
+import {useRouter} from 'next/navigation';
 
 const LoginPage = () => {
 
@@ -10,14 +11,40 @@ const LoginPage = () => {
     password: ""
   })
 
-  const onSubmit  = async() => {
+  const router = useRouter();
 
+  const onSubmit  = async(e) => {
+    e.preventDefault();
+    if (!user.username || !user.password) {
+      alert('All fields are required');
+      return;
+    }
+
+    try {
+        const res = await fetch('http://localhost:3000/api/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user),
+      });
+
+      if (res.ok) {
+        router.push('/profile');
+      } else {
+        const errorData = await res.json();
+        throw new Error(`Failed to create a user: ${errorData.error}`);
+      }
+    } catch (error: any) {
+      console.error('Login failed', error.message);
+      alert('Login failed. Please try again.');
+    }
   };
 
   return (
     <div className="max-w-md mx-auto mt-10 p-6 border rounded shadow-lg">
       <h1 className="text-2xl font-bold mb-4 text-center">Login</h1>
-      <form>
+      <form onSubmit={onSubmit}>
         <div className="mb-4">
           <label htmlFor="username" className="block mb-1">Username:</label>
           <input
