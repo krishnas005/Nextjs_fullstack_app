@@ -1,5 +1,5 @@
-import Head from "next/head"
-import Link from "next/link"
+import Head from "next/head";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -12,6 +12,7 @@ export default function Home() {
       <div><Link href={'/signup'}>Sign Up</Link></div>
       <div><Link href={'/contact'}>Contact</Link></div>
       </div>
+      <p>2:40:00 </p>
     </main>
   )
 }
