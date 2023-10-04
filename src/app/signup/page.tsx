@@ -30,10 +30,10 @@ const SignupPage = () => {
             });
             if (res.ok) {
                 router.push('/login');
-              } else {
+                } else {
                 const errorData = await res.json();
                 throw new Error(`Failed to create a user: ${errorData.error}`);
-              }
+                }
             
         } catch (error:any) {
             console.log(error);
